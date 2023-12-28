@@ -1,6 +1,9 @@
 # png-mask-to-yolo-txt
 Convert png mask segmentation labels to yolo txt format
 将png掩码mask转换为yolo的txt格式
+
+mask_to_yolo 输入为：mask png目录地址、txt保存地址、类别数、生成轮廓点数、验证生成轮廓点
+
 ```
 data
 |_ mask_png_dir  待转换的mask png
