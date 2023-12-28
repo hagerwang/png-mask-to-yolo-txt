@@ -53,13 +53,14 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
                         contour_coords_temp.append(resampled_contour[idx][1] / w)
                     contour_labels_all.append(label_id-1)
                     contour_coords_all.append(contour_coords_temp)
-        out_file = open(save_dir + '/' + img.split('.')[0] + '.txt', 'w')
-        for ln, bb in zip(contour_labels_all, contour_coords_all):
-            out_file.write(str(ln) + " " + " ".join([str(round(a, 6)) for a in bb]) + '\n')
-        print("convert ", img_path)
+        if not validation:
+            out_file = open(save_dir + '/' + img.split('.')[0] + '.txt', 'w')
+            for ln, bb in zip(contour_labels_all, contour_coords_all):
+                out_file.write(str(ln) + " " + " ".join([str(round(a, 6)) for a in bb]) + '\n')
+            print("convert ", img_path)
 
 
 if __name__ == '__main__':
     # png mask dir ,target dir, number of class, number of points, validation
-    mask_to_yolo("./train_mask", "./train_txt", 5, 100, True)
+    mask_to_yolo("./train_mask", "./train_txt", 5, 100, False)
     # mask_to_yolo("./val_mask", "./val_txt", 5, 14)
