@@ -34,8 +34,8 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
             contours, _ = cv2.findContours(img_temp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             if len(contours) != 0:  # 获取到该类别轮廓
-                contour_coords_temp = list()  # 坐标列表
                 for current_contours in contours:
+                    contour_coords_temp = list()  # 坐标列表
                     current_contours = np.array(current_contours).squeeze(1)
                     if len(current_contours) >= num_points:  # 如果当前轮廓点数大于14则步长采样
                         step = len(current_contours) // num_points
@@ -49,8 +49,8 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
                         show_contour(resampled_contour, w, h)
                     for idx in range(num_points):
                         # norm
-                        contour_coords_temp.append(resampled_contour[idx][0] / h)
-                        contour_coords_temp.append(resampled_contour[idx][1] / w)
+                        contour_coords_temp.append(resampled_contour[idx][0] / h)  # h
+                        contour_coords_temp.append(resampled_contour[idx][1] / w)  # w
                     contour_labels_all.append(label_id-1)
                     contour_coords_all.append(contour_coords_temp)
         if not validation:
@@ -62,5 +62,5 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
 
 if __name__ == '__main__':
     # png mask dir ,target dir, number of class, number of points, validation
-    mask_to_yolo("./train_mask", "./train_txt", 5, 100, False)
-    # mask_to_yolo("./val_mask", "./val_txt", 5, 14)
+    # mask_to_yolo("./train_mask", "./train_txt", 5, 100, False)
+    mask_to_yolo("./val_mask", "./val_txt", 5, 100, False)
