@@ -38,8 +38,13 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
                     contour_coords_temp = list()  # 坐标列表
                     current_contours = np.array(current_contours).squeeze(1)
                     if len(current_contours) >= num_points:  # 如果当前轮廓点数大于14则步长采样
-                        step = len(current_contours) // num_points
-                        sample_ind = np.arange(0, len(current_contours), step)  # [:14]
+                        step = len(current_contours) / num_points
+                        sample_ind = list()
+                        # sample_ind = np.arange(0, len(current_contours), step)  #[:num_points]  # [:14]
+                        # print(len(current_contours))
+                        for ci in range(num_points):
+                            sample_ind.append(int(ci*step))
+                        # print(sample_idx)
                         resampled_contour = current_contours[sample_ind]
                     else:  # 如果小于14则需要同一点多次采样来插值
                         contour_len = current_contours.shape[0]
@@ -62,5 +67,5 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
 
 if __name__ == '__main__':
     # png mask dir ,target dir, number of class, number of points, validation
-    # mask_to_yolo("./train_mask", "./train_txt", 5, 100, False)
-    mask_to_yolo("./val_mask", "./val_txt", 5, 100, False)
+    mask_to_yolo("./train_mask", "./train_txt", 5, 128, False)
+    mask_to_yolo("./val_mask", "./val_txt", 5, 128, False)
