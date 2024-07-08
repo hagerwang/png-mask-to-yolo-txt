@@ -17,6 +17,7 @@ data
 .......
 ```
 png 内容： 0 背景  1~n 为对应的类别的实例掩码
-png格式为h w, 若为h w c则需要将
+
+只适用于png格式为h w, 若为h w c=3则需要将img_temp[img_temp != label_id] = 0改为对应颜色的判断
 
 代码逻辑比较冗余，凑活用吧。本人用的yolov8测的可以用。
