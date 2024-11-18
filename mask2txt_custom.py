@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import cv2
-
+import copy
 
 def show_contour(contours, w, h):
     contour = np.array(contours)
@@ -28,7 +28,8 @@ def mask_to_yolo(mask_dir, save_dir, num_label, num_points, validation=False):
         w, h = img_current.shape
         # 获取不同类别的轮廓
         for label_id in range(1, num_label+1, 1):
-            img_temp = img_current
+            # img_temp = img_current
+            img_temp = copy.deepcopy(img_current)
             img_temp = np.uint8(img_temp)
             img_temp[img_temp != label_id] = 0
             contours, _ = cv2.findContours(img_temp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
